@@ -1,8 +1,6 @@
 import { Pokemon } from "./pokemon-model.js";
 export const pokeApi = {};
 
-const arr = [1, 2, 4];
-
 // const convertPokeApiDetailToPokemon = (pokeDetail) => {
 //   const pokemon = new Pokemon();
 //   pokemon.number = pokeDetail.number;
@@ -21,7 +19,7 @@ pokeApi.getPokemonsDetail = (pokemon) => {
   return fetch(pokemon.url).then((res) => res.json());
 };
 
-pokeApi.getpokemons = (offset = 0, limit = 5) => {
+pokeApi.getpokemons = (offset = 0, limit = 20) => {
   const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
   return fetch(url)
     .then((res) => res.json())

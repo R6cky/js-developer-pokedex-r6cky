@@ -1,11 +1,27 @@
 import { pokeApi } from "./requests.js";
 
 const refHtml = document.querySelector(".pokemon-ul");
+const pokemonList = document.querySelector(".pagination");
 
 const renderListPokemonTypes = (pokemonTypes) => {
   return pokemonTypes.map(
     (typeSlot) => `<li class="pokemon-type">${typeSlot.type.name}</li>`
   );
+};
+
+const loadPokemonItens = () => {
+  pokeApi.getPokemons().then((pokemons = []) => {
+    const newHtml = pokemons.map((elem) => renderpokemons(elem));
+    pokemonList.innerHTML += newHtml;
+  });
+};
+
+const showPokemons = () => {
+  const li = document.querySelector(".pokemon-li");
+
+  li.addEventListener("click", (e) => {
+    console.log(e);
+  });
 };
 
 const renderpokemons = (pokemon) => {
@@ -24,11 +40,10 @@ const renderpokemons = (pokemon) => {
                     <div class="pokemon-img">
                     <img src="${
                       pokemon.sprites.other.dream_world.front_default
-                    }" alt="img" />
+                    }" width="64px" alt="img" />
                     </div>
                 </div>
         </li>
-
     `;
 };
 
