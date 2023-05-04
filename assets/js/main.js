@@ -1,7 +1,9 @@
 import { pokeApi } from "./requests.js";
 
 const refHtml = document.querySelector(".pokemon-ul");
-const pokemonList = document.querySelector(".pagination");
+const loadMoreButton = document.querySelector(".load-more");
+const limit = 5;
+var offset = 0;
 
 const renderListPokemonTypes = (pokemonTypes) => {
   return pokemonTypes.map(
@@ -9,26 +11,30 @@ const renderListPokemonTypes = (pokemonTypes) => {
   );
 };
 
-const loadPokemonItens = () => {
-  pokeApi.getPokemons().then((pokemons = []) => {
+const loadPokemonItens = (offset, limit) => {
+  pokeApi.getpokemons(offset, limit).then((pokemons = []) => {
     const newHtml = pokemons.map((elem) => renderpokemons(elem));
-    pokemonList.innerHTML += newHtml;
+    refHtml.innerHTML += newHtml.join("");
   });
 };
 
-const showPokemons = () => {
-  const li = document.querySelector(".pokemon-li");
+loadMoreButton.addEventListener("click", () => {
+  offset += limit;
+  loadPokemonItens(offset, limit);
+});
 
-  li.addEventListener("click", (e) => {
-    console.log(e);
-  });
-};
+// const showPokemons = () => {
+//   const li = document.querySelectorAll(".pokemon-li");
+//   li.addEventListener("click", (e) => {
+//     alert("oi");
+//   });
+// };
 
 const renderpokemons = (pokemon) => {
   return `
         <li class="pokemon-li ${pokemon.types[0].type.name}">
                 <div class="pokemon-number">
-                    <p>#${pokemon.order}</p>
+                    <p>#${pokemon.id}</p>
                 </div>
                 <div class="pokemon-name">
                     <h4>${pokemon.name}</h4>
@@ -44,6 +50,7 @@ const renderpokemons = (pokemon) => {
                     </div>
                 </div>
         </li>
+
     `;
 };
 
