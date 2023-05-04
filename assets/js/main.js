@@ -16,7 +16,8 @@ const loadPokemonItens = (offset, limit) => {
   pokeApi.getpokemons(offset, limit).then((pokemons = []) => {
     const newHtml = pokemons.map((elem) => renderpokemons(elem));
     refHtml.innerHTML += newHtml.join("");
-    showPokemons();
+    searchPokemons();
+    openModalViewPokemon(pokemons);
   });
 };
 
@@ -25,12 +26,27 @@ loadMoreButton.addEventListener("click", () => {
   loadPokemonItens(offset, limit);
 });
 
-const showPokemons = () => {
+const searchPokemons = () => {
+  const searchInput = document.querySelector(".search-input");
   const pokemonLi = document.querySelectorAll(".pokemon-li");
-  pokemonLi.forEach((pokemon) => {
-    pokemon.addEventListener("click", () => {
-      openModalViewPokemon();
-    });
+
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value !== " ") {
+      for (let pokemon of pokemonLi) {
+        console.log(pokemon);
+        let name = pokemon.querySelector(".pokemon-name");
+        name = name.textContent.toLowerCase();
+
+        let filterText = searchInput.value.toLowerCase();
+        if (!name.includes(filterText)) {
+          pokemon.style.display = "none";
+        } else {
+          pokemon.style.display = "flex";
+        }
+      }
+    } else {
+      name.style.display = "flex";
+    }
   });
 };
 
@@ -48,10 +64,13 @@ const renderpokemons = (pokemon) => {
                     ${renderListPokemonTypes(pokemon.types).join("")}
                     </ul>
                     <div class="pokemon-img">
-                    <img src="${
+                    <img class="pokemon-img-img" src="${
                       pokemon.sprites.other.dream_world.front_default
-                    }" width="64px" alt="img" />
+                    }" />
                     </div>
+                </div>
+                <div class="btn-view-card" id="${pokemon.name}">
+                    <img class="btn-view-card-img" src="./assets/img/eyes.png" alt="img" width="30px">
                 </div>
         </li>
 
@@ -63,6 +82,7 @@ pokeApi
   .then((pokemons) => {
     const itemList = pokemons.map((elem) => renderpokemons(elem));
     refHtml.innerHTML += itemList.join("");
-    showPokemons();
+    searchPokemons();
+    openModalViewPokemon(pokemons);
   })
   .catch((err) => console.log(err));
