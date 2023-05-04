@@ -33,7 +33,6 @@ const searchPokemons = () => {
   searchInput.addEventListener("input", () => {
     if (searchInput.value !== " ") {
       for (let pokemon of pokemonLi) {
-        console.log(pokemon);
         let name = pokemon.querySelector(".pokemon-name");
         name = name.textContent.toLowerCase();
 

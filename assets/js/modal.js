@@ -9,7 +9,6 @@ export const openModalViewPokemon = (pokemons) => {
         modal.classList.add("active-modal-view-pokemon");
         const modalName = document.querySelector(".modal-name-pokemon");
         const modalImg = document.querySelector(".modal-image");
-        console.log(elem.parentElement.id.toLowerCase());
         pokemons.forEach((pokemon) => {
           if (
             pokemon.name.toLowerCase() === elem.parentElement.id.toLowerCase()
