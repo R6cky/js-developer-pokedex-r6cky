@@ -1,3 +1,4 @@
+import { openModalViewPokemon } from "./modal.js";
 import { pokeApi } from "./requests.js";
 
 const refHtml = document.querySelector(".pokemon-ul");
@@ -15,6 +16,7 @@ const loadPokemonItens = (offset, limit) => {
   pokeApi.getpokemons(offset, limit).then((pokemons = []) => {
     const newHtml = pokemons.map((elem) => renderpokemons(elem));
     refHtml.innerHTML += newHtml.join("");
+    showPokemons();
   });
 };
 
@@ -23,12 +25,14 @@ loadMoreButton.addEventListener("click", () => {
   loadPokemonItens(offset, limit);
 });
 
-// const showPokemons = () => {
-//   const li = document.querySelectorAll(".pokemon-li");
-//   li.addEventListener("click", (e) => {
-//     alert("oi");
-//   });
-// };
+const showPokemons = () => {
+  const pokemonLi = document.querySelectorAll(".pokemon-li");
+  pokemonLi.forEach((pokemon) => {
+    pokemon.addEventListener("click", () => {
+      openModalViewPokemon();
+    });
+  });
+};
 
 const renderpokemons = (pokemon) => {
   return `
@@ -59,5 +63,6 @@ pokeApi
   .then((pokemons) => {
     const itemList = pokemons.map((elem) => renderpokemons(elem));
     refHtml.innerHTML += itemList.join("");
+    showPokemons();
   })
   .catch((err) => console.log(err));
